@@ -1,0 +1,25 @@
+<h4>Agregar personaje</h4>
+<input
+  type="text"
+  placeholder="Nombre"
+  name="name"
+  class="form-control"
+  [value]="name()"
+  (change)="name.set(txtName.value)"
+  (input)="name.set(txtName.value)"
+  #txtName
+  >
+
+<input
+  type="number"
+  placeholder="Poder"
+  name="power"
+  class="form-control mt-2"
+  [value]="power()"
+  (input)="power.set(+txtPower.value)"
+  #txtPower
+>
+
+<button (click)="addCharacter()" class="mt-2 btn btn-primary">
+  Agregar
+</button>

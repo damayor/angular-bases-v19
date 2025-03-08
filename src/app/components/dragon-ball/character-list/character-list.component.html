@@ -1,0 +1,18 @@
+<h3>{{listName()}}</h3>
+
+<!-- <dragon-ball-character-list [characters]="characters()"/> -->
+
+<ul class="mt-2 list-group">
+  @for (character of characters(); track character.id; let idx = $index ) {
+    @if ( character.power > 1000) {
+      <li>
+        <span></span>{{ idx + 1 }} - {{character.name}}
+        <strong class="text-danger"
+
+        >{{character.power}}</strong>
+      </li>
+    } @else {
+      <li>Aqui no hay nadie</li>
+    }
+  }
+</ul>
