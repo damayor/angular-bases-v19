@@ -1,0 +1,60 @@
+<h1>Main Dragon Ball Z Page</h1>
+<hr>
+
+
+<section class="row">
+  <div class="col-12 col-sm-6">
+
+    <!-- <dbz-list [characterList]="characters"
+              (onDelete)="deleteCharacterById($event)"></dbz-list> -->
+
+      <h4>Agregar personaje</h4>
+        <input
+          type="text"
+          placeholder="Nombre"
+          name="name"
+          class="form-control"
+          [value]="name()"
+          (change)="name.set(txtName.value)"
+          (input)="name.set(txtName.value)"
+          #txtName
+          >
+
+        <input
+          type="number"
+          placeholder="Poder"
+          name="power"
+          class="form-control mt-2"
+          [value]="power()"
+          (input)="power.set(+txtPower.value)"
+          #txtPower
+        >
+
+        <button (click)="addCharacter()" class="mt-2 btn btn-primary">
+          Agregar
+        </button>
+  </div>
+
+  <div class="col-12 col-sm-6">
+
+    <!-- <dbz-add-character (onNewCharacter)="(addCharacter($event))" ></dbz-add-character> -->
+    <h3>listado</h3>
+
+    <ul class="mt-2 list-group">
+      @for (character of characters(); track character.id; let idx = $index ) {
+        @if ( character.power > 1000) {
+          <li>
+            <span></span>{{ idx + 1 }} - {{character.name}}
+            <strong class="text-danger"
+              [ngClass]="powerClasses()"
+            >{{character.power}}</strong>
+          </li>
+        } @else {
+          <li>Aqui no hay nadie</li>
+        }
+      }
+    </ul>
+
+
+  </div>
+</section>
