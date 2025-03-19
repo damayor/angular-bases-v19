@@ -7,7 +7,7 @@
 
 
     <dragon-ball-add-character
-      (newCharacter)="addCharacter($event)"
+      (newCharacter)="dragonballService.addCharacter($event)"
     />
   </div>
 
@@ -15,7 +15,7 @@
 
     <dragon-ball-character-list
       listName="Listado de personajes"
-      [characters]="characters()"
+      [characters]="dragonballService.characters()"
     />
 
 
