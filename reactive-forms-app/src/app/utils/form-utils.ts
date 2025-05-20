@@ -1,6 +1,19 @@
-import { FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+import { AbstractControl, FormArray, FormGroup, ValidationErrors } from "@angular/forms";
+
+
+async function sleep() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true)
+    }, 2500)
+  })
+}
 
 export class FormUtils {
+
+  static namePattern = '([a-zA-Z]+) ([a-zA-Z]+)';
+  static emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$';
+  static notOnlySpacesPattern = '^[a-zA-Z0-9]+$';
 
 
   static getTextErrors(errors: ValidationErrors) {
@@ -12,6 +25,17 @@ export class FormUtils {
           return `Minimo de ${errors['minlength'].requiredLength} caracteres`;
         case 'min':
           return `Valor minimo de ${errors['min'].min}`;
+        case 'email':
+          return `El valor ingresado no es un correo electronico`;
+        case 'pattern':
+          if(errors['pattern'].requiredPattern == FormUtils.emailPattern) {
+            return 'El valor ingresado no luce como email'
+          }
+
+          return 'Error de patron contra expresion regular'
+
+        default:
+          return `Error de validación no controlado ${key}`
       }
     }
 
@@ -46,6 +70,55 @@ export class FormUtils {
     const errors = formArray.controls[index].errors ?? {}
 
     return FormUtils.getTextErrors(errors)
+
+  }
+
+
+  // global validators
+
+  static isFieldOneQualFieldTwo(field1:string, field2:string ) {
+    return(formGroup: AbstractControl) => {
+
+      const field1Value = formGroup.get(field1)?.value;
+      const field2Value = formGroup.get(field2)?.value;
+
+      return field1Value == field2Value ? null : { passwordNotEqual: true}
+    }
+  }
+
+
+
+
+  static async checkingServerResponse(control: AbstractControl): Promise<ValidationErrors | null> {
+    console.log('Validado contra servidor..')
+    await sleep();
+
+    const formValue = control.value;
+
+    if(formValue == 'hola@mundo.com') {
+      return {
+        emailTaken: true
+      }
+    }
+
+
+    return null
+  }
+
+  static notStrider(control: AbstractControl) : ValidationErrors | null  {
+
+    const formValue = control.value;
+
+    if(formValue == 'Strider') {
+      console.log('Ojo username prohibido')
+
+      return {
+        striderUsername: true
+      }
+    }
+
+    return null
+
 
   }
 
